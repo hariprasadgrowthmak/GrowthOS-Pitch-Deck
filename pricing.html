@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Pricing | GrowthOS - The Digital Curator for AI Execution</title>
+<title>GrowthOS | The AI Operating System for Marketing Agencies</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -74,6 +74,20 @@
           "2xl": "1rem",
           "3xl": "1.5rem",
           "full": "9999px"
+        },
+        keyframes: {
+          fadeUp: {
+            "0%": { opacity: "0", transform: "translateY(20px)" },
+            "100%": { opacity: "1", transform: "translateY(0)" }
+          },
+          pulse: {
+            "0%, 100%": { opacity: "1" },
+            "50%": { opacity: "0.4" }
+          }
+        },
+        animation: {
+          "fade-up": "fadeUp 0.6s ease-out forwards",
+          "pulse": "pulse 2s ease-in-out infinite"
         }
       }
     }
@@ -100,13 +114,9 @@
   .ambient-shadow-md {
     box-shadow: 0 8px 32px rgba(27, 27, 27, 0.04);
   }
-  /* Pricing toggle */
-  .billing-toggle input:checked ~ .dot {
-    transform: translateX(1.5rem);
-    background-color: #005bb0;
-  }
-  .billing-toggle input:checked ~ .track {
-    background-color: #d6e3ff;
+  /* Mobile menu */
+  #mobile-menu {
+    transition: all 0.3s ease;
   }
   /* FAQ accordion */
   .faq-answer {
@@ -123,7 +133,14 @@
   .faq-chevron.open {
     transform: rotate(180deg);
   }
-  /* Reveal — content visible by default, animates in when JS fires */
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  /* Scroll reveal — content visible by default, animates in when JS fires */
   .reveal {
     opacity: 1;
     transform: translateY(0);
@@ -131,27 +148,7 @@
   }
   .reveal-delay-1 { transition-delay: 0.1s; }
   .reveal-delay-2 { transition-delay: 0.2s; }
-  @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-      animation-duration: 0.01ms !important;
-      transition-duration: 0.01ms !important;
-    }
-  }
-  /* Pricing card hover */
-  .pricing-card {
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .pricing-card:hover {
-    transform: translateY(-6px);
-  }
-  /* ROI counter animation */
-  @keyframes countUp {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  .count-anim {
-    animation: countUp 0.5s ease-out forwards;
-  }
+  .reveal-delay-3 { transition-delay: 0.3s; }
 </style>
 </head>
 <body class="bg-surface font-body text-on-surface">
@@ -165,13 +162,13 @@
     <div class="flex items-center gap-10">
       <a href="index.html" class="text-xl font-black tracking-tighter text-[#1b1b1b] font-headline" aria-label="GrowthOS home">GrowthOS</a>
       <div class="hidden md:flex items-center gap-8">
-        <a href="index.html" class="font-headline font-semibold text-sm tracking-tight text-[#404754] hover:text-[#1b1b1b] transition-all duration-300">Platform</a>
-        <a href="pricing.html" class="font-headline font-semibold text-sm tracking-tight text-[#0787fe] border-b-2 border-[#0787fe] pb-1" aria-current="page">Pricing</a>
-        <a href="index.html#about" class="font-headline font-semibold text-sm tracking-tight text-[#404754] hover:text-[#1b1b1b] transition-all duration-300">About</a>
+        <a href="index.html" class="font-headline font-semibold text-sm tracking-tight text-[#0787fe] border-b-2 border-[#0787fe] pb-1" aria-current="page">Platform</a>
+        <a href="pricing.html" class="font-headline font-semibold text-sm tracking-tight text-[#404754] hover:text-[#1b1b1b] transition-all duration-300">Pricing</a>
+        <a href="#about" class="font-headline font-semibold text-sm tracking-tight text-[#404754] hover:text-[#1b1b1b] transition-all duration-300">About</a>
       </div>
     </div>
     <div class="flex items-center gap-4">
-      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="hidden md:block px-5 py-2.5 bg-on-background text-white font-headline font-semibold text-sm rounded-xl shadow-sm hover:opacity-80 transition-all duration-300">Contact Founders ↗</a>
+      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="hidden md:block px-5 py-2.5 bg-on-background text-white font-headline font-semibold text-sm rounded-xl shadow-sm hover:opacity-80 transition-all duration-300 flex items-center gap-1.5">Contact Founders</a>
       <!-- Mobile menu button -->
       <button id="nav-toggle" class="md:hidden p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
         <span class="material-symbols-outlined text-on-surface">menu</span>
@@ -181,572 +178,740 @@
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden md:hidden bg-[#fcf9f8]/95 glass-nav border-t border-outline-variant/10">
     <div class="px-6 py-4 flex flex-col gap-4">
-      <a href="index.html" class="font-headline font-semibold text-sm text-[#404754]">Platform</a>
-      <a href="pricing.html" class="font-headline font-semibold text-sm text-[#0787fe]">Pricing</a>
-      <a href="index.html#about" class="font-headline font-semibold text-sm text-[#404754]">About</a>
+      <a href="index.html" class="font-headline font-semibold text-sm text-[#0787fe]">Platform</a>
+      <a href="pricing.html" class="font-headline font-semibold text-sm text-[#404754]">Pricing</a>
+      <a href="#about" class="font-headline font-semibold text-sm text-[#404754]">About</a>
       <hr class="border-outline-variant/20"/>
-      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="px-5 py-3 bg-on-background text-white font-headline font-semibold text-sm rounded-xl text-center">Contact Founders ↗</a>
+      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="px-5 py-3 bg-on-background text-white font-headline font-semibold text-sm rounded-xl text-center">Contact Founders</a>
     </div>
   </div>
 </nav>
 
-<main id="main-content" class="pt-32 pb-24">
+<main id="main-content" class="pt-20">
 
   <!-- ─── Hero Section ─────────────────────────────────────── -->
-  <section class="max-w-7xl mx-auto px-6 md:px-8 mb-16 text-center lg:text-left" aria-labelledby="pricing-hero-heading">
-    <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-tertiary-container/10 text-tertiary font-label text-xs font-bold uppercase tracking-widest mb-6">
-      <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-      AI Efficiency Infrastructure
+  <section class="relative overflow-hidden pt-24 pb-32" aria-labelledby="hero-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-tertiary-container/10 text-tertiary text-xs font-bold font-label uppercase tracking-widest mb-6">
+          <span class="w-2 h-2 rounded-full bg-highlight-teal animate-pulse"></span>
+          The Digital Curator for AI Execution
+        </div>
+        <h1 id="hero-heading" class="text-5xl md:text-6xl lg:text-7xl font-extrabold font-headline tracking-tighter text-on-background leading-[1.05] mb-8">
+          The AI Operating System That <span class="text-primary-container">Runs Your Agency</span>
+        </h1>
+        <p class="text-xl text-on-surface-variant max-w-2xl mb-10 leading-relaxed">
+          Eliminate the Repetitive 60% So Your Team Focuses on the Strategic 40%. Scalable execution powered by human-aligned artificial intelligence.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="px-8 py-4 bg-on-background text-white font-bold font-headline rounded-xl text-lg flex items-center justify-center gap-2 shadow-lg hover:opacity-80 hover:scale-[1.02] active:scale-95 transition-all">
+            Contact Founders
+           
+          </a>
+          <a href="pricing.html" class="px-8 py-4 bg-surface-container-high text-on-surface font-bold font-headline rounded-xl text-lg hover:bg-surface-container transition-all flex items-center justify-center">
+            View Pricing
+          </a>
+        </div>
+      </div>
     </div>
-    <h1 id="pricing-hero-heading" class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter text-on-surface max-w-4xl leading-[1.05] mb-8">
-      The ROI of <span class="text-primary italic">Intelligence.</span>
-    </h1>
-    <p class="font-body text-xl text-on-surface-variant max-w-2xl leading-relaxed mb-10">
-      Replace manual overhead with AI execution. Scale your agency's margins by 11x with the OS designed for modern marketing operations.
-    </p>
-
-    <!-- Billing toggle -->
-    <div class="flex items-center gap-4 justify-center lg:justify-start">
-      <span id="monthly-label" class="text-sm font-bold font-label text-on-surface">Monthly</span>
-      <label class="billing-toggle relative inline-flex items-center cursor-pointer" aria-label="Toggle annual billing">
-        <input type="checkbox" id="billing-toggle" class="sr-only" />
-        <div class="track w-12 h-6 bg-surface-container-high rounded-full transition-colors duration-300"></div>
-        <div class="dot absolute left-1 top-1 w-4 h-4 bg-outline rounded-full transition-all duration-300"></div>
-      </label>
-      <span id="annual-label" class="text-sm font-label text-on-surface-variant">Annual <span id="save-badge" class="inline-block px-2 py-0.5 bg-tertiary-container/20 text-tertiary text-xs font-bold rounded-full">Save 20%</span></span>
-    </div>
-  </section>
-
-  <!-- ─── Pricing Tiers ────────────────────────────────────── -->
-  <section class="max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8 mb-32" aria-label="Pricing plans">
-
-    <!-- Starter -->
-    <article class="pricing-card bg-surface-container-low rounded-3xl p-8 flex flex-col reveal" aria-label="Starter plan">
-      <div class="mb-8">
-        <h2 class="font-headline text-lg font-bold text-on-surface mb-1">Starter</h2>
-        <p class="text-on-surface-variant text-sm mb-1">Solo operators / small shops</p>
-        <p class="text-xs font-bold text-outline mb-4">1–5 people</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-4xl font-extrabold tracking-tight font-headline" id="starter-price">$499</span>
-          <span class="text-on-surface-variant text-sm font-medium">/mo</span>
-        </div>
-        <p class="text-xs text-on-surface-variant mt-1" id="starter-billed">Billed monthly</p>
-      </div>
-      <ul class="space-y-4 mb-10 flex-grow" role="list">
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-          100 AI credits/month
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-          Core Blueprint Library
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-          Basic Reporting
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-          Email Support (48h response)
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant/40">
-          <span class="material-symbols-outlined text-on-surface-variant/30 text-xl mt-0.5">remove_circle</span>
-          Priority Slack Support
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant/40">
-          <span class="material-symbols-outlined text-on-surface-variant/30 text-xl mt-0.5">remove_circle</span>
-          Causal Reporting Dashboard
-        </li>
-      </ul>
-      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="w-full py-4 rounded-xl bg-on-background text-white font-headline font-bold text-sm hover:opacity-80 active:scale-95 transition-all flex items-center justify-center gap-2">
-        Contact Founders <span class="text-xs">↗</span>
-      </a>
-    </article>
-
-    <!-- Growth (Recommended) -->
-    <article class="pricing-card relative bg-surface-container-lowest rounded-3xl p-8 flex flex-col ambient-shadow ring-2 ring-primary z-10 reveal reveal-delay-1" aria-label="Growth plan — recommended">
-      <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-xs font-bold font-label uppercase tracking-widest shadow-lg shadow-primary/30">
-        Recommended
-      </div>
-      <div class="mb-8">
-        <h2 class="font-headline text-lg font-bold text-primary mb-1">Growth</h2>
-        <p class="text-on-surface-variant text-sm mb-1">Scaling agencies</p>
-        <p class="text-xs font-bold text-outline mb-4">10–25 people</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-4xl font-extrabold tracking-tight font-headline" id="growth-price">$1,200</span>
-          <span class="text-on-surface-variant text-sm font-medium">/mo</span>
-        </div>
-        <p class="text-xs text-on-surface-variant mt-1" id="growth-billed">Billed monthly</p>
-      </div>
-      <ul class="space-y-4 mb-10 flex-grow" role="list">
-        <li class="flex items-start gap-3 text-sm text-on-surface">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">verified</span>
-          500 AI credits/month
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">verified</span>
-          Full Unlocked Blueprint Library
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">verified</span>
-          Causal Reporting Dashboard
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">verified</span>
-          Priority Slack Support
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface">
-          <span class="material-symbols-outlined text-primary text-xl mt-0.5" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">verified</span>
-          Weekly Strategy Consultation
-        </li>
-      </ul>
-      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="w-full py-4 rounded-xl bg-on-background text-white font-headline font-bold text-sm hover:opacity-80 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2 shadow-xl">
-        Contact Founders <span class="text-xs">↗</span>
-      </a>
-    </article>
-
-    <!-- Enterprise -->
-    <article class="pricing-card bg-surface-container-low rounded-3xl p-8 flex flex-col reveal reveal-delay-2" aria-label="Enterprise plan">
-      <div class="mb-8">
-        <h2 class="font-headline text-lg font-bold text-on-surface mb-1">Enterprise</h2>
-        <p class="text-on-surface-variant text-sm mb-1">Large agencies / holdcos</p>
-        <p class="text-xs font-bold text-outline mb-4">50+ people · $3,000+ setup fee</p>
-        <div class="flex items-baseline gap-1">
-          <span class="text-4xl font-extrabold tracking-tight font-headline">Custom</span>
-        </div>
-        <p class="text-xs text-on-surface-variant mt-1">Talk to our sales team</p>
-      </div>
-      <ul class="space-y-4 mb-10 flex-grow" role="list">
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-tertiary text-xl mt-0.5">dynamic_form</span>
-          Unlimited AI Credits
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-tertiary text-xl mt-0.5">dynamic_form</span>
-          Managed Migration
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-tertiary text-xl mt-0.5">dynamic_form</span>
-          Custom Blueprint Builds
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-tertiary text-xl mt-0.5">dynamic_form</span>
-          Dedicated Success Manager
-        </li>
-        <li class="flex items-start gap-3 text-sm text-on-surface-variant">
-          <span class="material-symbols-outlined text-tertiary text-xl mt-0.5">dynamic_form</span>
-          Whitelabel Capabilities
-        </li>
-      </ul>
-      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="w-full py-4 rounded-xl bg-on-background text-white font-headline font-bold text-sm hover:opacity-80 active:scale-95 transition-all flex items-center justify-center gap-2">
-        Contact Founders <span class="text-xs">↗</span>
-      </a>
-    </article>
-  </section>
-
-  <!-- ─── Feature Comparison Table ────────────────────────── -->
-  <section class="max-w-5xl mx-auto px-6 md:px-8 mb-32 reveal" aria-label="Feature comparison">
-    <h2 class="font-headline text-2xl font-bold text-center mb-10">Compare all features</h2>
-    <div class="bg-surface-container-lowest rounded-3xl overflow-hidden ambient-shadow">
-      <table class="w-full text-sm" role="table">
-        <thead>
-          <tr class="bg-surface-container-low">
-            <th class="text-left px-6 py-4 font-headline font-bold text-on-surface-variant text-xs uppercase tracking-widest" scope="col">Feature</th>
-            <th class="text-center px-4 py-4 font-headline font-bold text-on-surface text-sm" scope="col">Starter</th>
-            <th class="text-center px-4 py-4 font-headline font-bold text-primary text-sm" scope="col">Growth</th>
-            <th class="text-center px-4 py-4 font-headline font-bold text-tertiary text-sm" scope="col">Enterprise</th>
-          </tr>
-        </thead>
-        <tbody class="divide-y divide-outline-variant/10">
-          <tr>
-            <td class="px-6 py-4 text-on-surface-variant">AI Execution Credits/mo</td>
-            <td class="text-center px-4 py-4 text-on-surface">100</td>
-            <td class="text-center px-4 py-4 font-bold text-on-surface">500</td>
-            <td class="text-center px-4 py-4 text-tertiary font-bold">Unlimited</td>
-          </tr>
-          <tr class="bg-surface-container-low/30">
-            <td class="px-6 py-4 text-on-surface-variant">Blueprint Library</td>
-            <td class="text-center px-4 py-4 text-on-surface-variant">Core only</td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 text-on-surface-variant">ROI Dashboard</td>
-            <td class="text-center px-4 py-4 text-on-surface-variant">Basic</td>
-            <td class="text-center px-4 py-4 text-on-surface">Advanced</td>
-            <td class="text-center px-4 py-4 text-tertiary font-bold">Custom</td>
-          </tr>
-          <tr class="bg-surface-container-low/30">
-            <td class="px-6 py-4 text-on-surface-variant">Support</td>
-            <td class="text-center px-4 py-4 text-on-surface-variant">Email (48h)</td>
-            <td class="text-center px-4 py-4 text-on-surface">Priority Slack</td>
-            <td class="text-center px-4 py-4 text-tertiary font-bold">Dedicated AM</td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 text-on-surface-variant">Strategy Consultation</td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4 text-on-surface-variant">Weekly</td>
-            <td class="text-center px-4 py-4 text-tertiary font-bold">Unlimited</td>
-          </tr>
-          <tr class="bg-surface-container-low/30">
-            <td class="px-6 py-4 text-on-surface-variant">Whitelabel</td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-            </td>
-          </tr>
-          <tr>
-            <td class="px-6 py-4 text-on-surface-variant">Custom Integrations</td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-            </td>
-          </tr>
-          <tr class="bg-surface-container-low/30">
-            <td class="px-6 py-4 text-on-surface-variant">SLA</td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-outline/40 text-lg">remove</span>
-            </td>
-            <td class="text-center px-4 py-4">
-              <span class="material-symbols-outlined text-tertiary text-lg" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Decorative radial gradient -->
+    <div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none" aria-hidden="true">
+      <div class="w-full h-full bg-[radial-gradient(circle_at_60%_40%,_#0074dc_0%,_transparent_70%)]"></div>
     </div>
   </section>
 
-  <!-- ─── ROI Calculator / Math Section ───────────────────── -->
-  <section class="max-w-7xl mx-auto px-6 md:px-8 mb-32" aria-labelledby="roi-heading">
-    <div class="bg-on-background text-surface p-10 md:p-16 lg:p-20 rounded-3xl overflow-hidden relative">
-      <!-- Background gradient -->
-      <div class="absolute top-0 right-0 w-1/2 h-full opacity-20 pointer-events-none" aria-hidden="true">
-        <div class="w-full h-full bg-gradient-to-bl from-primary to-transparent"></div>
+  <!-- ─── Trust Bar ────────────────────────────────────────── -->
+  <section class="bg-surface-container-low py-10" aria-label="Social proof">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="flex flex-wrap items-center justify-center md:justify-between gap-8 text-on-surface-variant/50">
+        <p class="text-xs font-label font-bold uppercase tracking-widest text-on-surface-variant/40">Trusted by 150+ modern agencies</p>
+        <div class="flex flex-wrap justify-center gap-8 md:gap-12">
+          <span class="font-headline font-bold text-lg tracking-tight opacity-40">VelocityMKT</span>
+          <span class="font-headline font-bold text-lg tracking-tight opacity-40">PixelForge</span>
+          <span class="font-headline font-bold text-lg tracking-tight opacity-40">NorthStar</span>
+          <span class="font-headline font-bold text-lg tracking-tight opacity-40">Prism Agency</span>
+          <span class="font-headline font-bold text-lg tracking-tight opacity-40">GrowthLab</span>
+        </div>
       </div>
-      <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        <div class="reveal">
-          <h2 id="roi-heading" class="font-headline text-4xl font-extrabold tracking-tight mb-6">The Math: Why GrowthOS?</h2>
-          <p class="text-surface-variant text-lg leading-relaxed mb-8">
-            We didn't just build a tool; we built a margin engine. For a typical 15-person agency billing $80K/month, GrowthOS delivers radical efficiency.
+    </div>
+  </section>
+
+  <!-- ─── Problem Section ──────────────────────────────────── -->
+  <section class="bg-surface-container-low py-32 rounded-t-[3rem] md:rounded-t-[4rem]" aria-labelledby="problem-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="flex flex-col md:flex-row gap-12 md:gap-16 items-end mb-20">
+        <div class="md:w-1/2 reveal">
+          <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">The Friction</p>
+          <h2 id="problem-heading" class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight leading-tight">
+            The old agency model is <span class="text-error">broken by design</span>.
+          </h2>
+        </div>
+        <div class="md:w-1/2 reveal reveal-delay-1">
+          <p class="text-lg text-on-surface-variant leading-relaxed">
+            Agencies spend more time managing work than doing work. Manual onboarding, fragmented deliverable creation, and manual reporting are silent margin killers.
           </p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <div class="bg-surface-container-lowest p-10 rounded-3xl ambient-shadow-md border border-outline-variant/10 reveal">
+          <span class="material-symbols-outlined text-4xl text-primary mb-6 block">dynamic_feed</span>
+          <h3 class="text-xl font-bold mb-4 font-headline">Fragmented Onboarding</h3>
+          <p class="text-on-surface-variant leading-relaxed">Weeks of manual data gathering and setup for every new client. Static PDFs that die in folders.</p>
+          <p class="mt-4 text-error font-bold text-sm">40+ hours burned before any billable work starts.</p>
+        </div>
+        <div class="bg-surface-container-lowest p-10 rounded-3xl ambient-shadow-md border border-outline-variant/10 reveal reveal-delay-1">
+          <span class="material-symbols-outlined text-4xl text-primary mb-6 block">history_edu</span>
+          <h3 class="text-xl font-bold mb-4 font-headline">Deliverable Lag</h3>
+          <p class="text-on-surface-variant leading-relaxed">Creative and strategic work delayed by repetitive formatting and data collation across 5 different tools.</p>
+          <p class="mt-4 text-error font-bold text-sm">60% of senior time on repetitive setup — not strategy.</p>
+        </div>
+        <div class="bg-surface-container-lowest p-10 rounded-3xl ambient-shadow-md border border-outline-variant/10 reveal reveal-delay-2">
+          <span class="material-symbols-outlined text-4xl text-primary mb-6 block">query_stats</span>
+          <h3 class="text-xl font-bold mb-4 font-headline">Reporting Fatigue</h3>
+          <p class="text-on-surface-variant leading-relaxed">Account managers spend 40% of their month manually screenshotting dashboards instead of driving growth.</p>
+          <p class="mt-4 text-error font-bold text-sm">15–20 hrs/month per client on reports that don't prove ROI.</p>
+        </div>
+      </div>
 
-          <!-- Itemised savings breakdown -->
-          <div class="space-y-3 mb-8">
-            <p class="text-xs font-label uppercase tracking-widest text-primary-fixed/50 mb-3">Where GrowthOS Saves Money</p>
-            <div class="flex justify-between items-center border-b border-surface-variant/15 pb-3">
-              <p class="text-sm text-surface-variant">Onboarding automation <span class="opacity-50 text-xs">(40 hrs/client × $50/hr, ~3 clients/qtr)</span></p>
-              <p class="text-sm font-bold text-primary-fixed whitespace-nowrap ml-4">~$2,000/mo</p>
+      <!-- Problem stats bar -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-20 reveal">
+        <div class="bg-error/8 border border-error/15 rounded-2xl p-6 text-center">
+          <p class="text-3xl font-black font-headline text-error mb-1">40+</p>
+          <p class="text-xs text-on-surface-variant">hrs lost before first billable hour per client</p>
+        </div>
+        <div class="bg-error/8 border border-error/15 rounded-2xl p-6 text-center">
+          <p class="text-3xl font-black font-headline text-error mb-1">60%</p>
+          <p class="text-xs text-on-surface-variant">of senior time spent on repetitive tasks</p>
+        </div>
+        <div class="bg-error/8 border border-error/15 rounded-2xl p-6 text-center">
+          <p class="text-3xl font-black font-headline text-error mb-1">&lt;15%</p>
+          <p class="text-xs text-on-surface-variant">avg. net margin for agencies with 10–50 people</p>
+        </div>
+        <div class="bg-error/8 border border-error/15 rounded-2xl p-6 text-center">
+          <p class="text-3xl font-black font-headline text-error mb-1">~5%</p>
+          <p class="text-xs text-on-surface-variant">industry-wide revenue growth — slowing fast</p>
+        </div>
+      </div>
+
+      <!-- Before → After table -->
+      <div class="reveal">
+        <h3 class="font-headline text-2xl font-bold text-on-surface mb-6">GrowthOS Eliminates the Repetitive 60% So Your Team Focuses on the Strategic 40%</h3>
+        <div class="overflow-x-auto rounded-3xl border border-outline-variant/10">
+          <table class="w-full text-sm" role="table">
+            <thead>
+              <tr class="bg-surface-container-lowest">
+                <th class="text-left px-6 py-4 font-label font-bold uppercase tracking-widest text-on-surface-variant text-xs" scope="col">Task</th>
+                <th class="text-left px-6 py-4 font-label font-bold uppercase tracking-widest text-error text-xs" scope="col">Before (Manual)</th>
+                <th class="text-left px-6 py-4 font-label font-bold uppercase tracking-widest text-primary text-xs" scope="col">After (GrowthOS)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant/10 bg-surface-container-low">
+              <tr>
+                <td class="px-6 py-4 font-medium text-on-surface">Client onboarding</td>
+                <td class="px-6 py-4 text-on-surface-variant">2–3 weeks of manual research</td>
+                <td class="px-6 py-4 text-primary font-medium">AI builds ICP, personas &amp; competitor analysis in 15 minutes</td>
+              </tr>
+              <tr class="bg-surface-container-lowest/50">
+                <td class="px-6 py-4 font-medium text-on-surface">Creating a proposal</td>
+                <td class="px-6 py-4 text-on-surface-variant">4–6 hours per proposal from scratch</td>
+                <td class="px-6 py-4 text-primary font-medium">AI generates branded, data-backed proposal in 10 minutes</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium text-on-surface">Monthly reporting</td>
+                <td class="px-6 py-4 text-on-surface-variant">15–20 hours of CSV exports &amp; formatting</td>
+                <td class="px-6 py-4 text-primary font-medium">Auto-generated causal reports showing which actions drove results</td>
+              </tr>
+              <tr class="bg-surface-container-lowest/50">
+                <td class="px-6 py-4 font-medium text-on-surface">Campaign setup</td>
+                <td class="px-6 py-4 text-on-surface-variant">Senior specialist builds from scratch each time</td>
+                <td class="px-6 py-4 text-primary font-medium">Pre-built workflow templates — specialist reviews, not creates</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium text-on-surface">Knowledge retention</td>
+                <td class="px-6 py-4 text-on-surface-variant">Lost when people leave the team</td>
+                <td class="px-6 py-4 text-primary font-medium">Every insight stored and compounding in a living knowledge base</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Solution: Bento Grid ─────────────────────────────── -->
+  <section class="py-32 bg-surface" aria-labelledby="solution-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="text-center mb-24 reveal">
+        <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">The Infrastructure</p>
+        <h2 id="solution-heading" class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight mb-6">The AI Execution Engine</h2>
+        <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">One operating system to orchestrate your entire agency's workflow.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <!-- Bricks — large card -->
+        <div class="md:col-span-8 bg-surface-container rounded-3xl overflow-hidden relative group p-12 min-h-[28rem] reveal">
+          <div class="relative z-10 max-w-md">
+            <h3 class="text-3xl font-bold font-headline mb-4">Bricks: Repeatable Tasks</h3>
+            <p class="text-on-surface-variant text-lg leading-relaxed mb-4">Atomize your agency's tasks into AI-powered units of work. From copy generation to technical SEO audits, automated in seconds.</p>
+            <p class="text-sm text-on-surface-variant">Each Brick runs in 3 modes:</p>
+            <div class="flex flex-wrap gap-2 mt-3">
+              <span class="px-3 py-1 rounded-full bg-surface-container-lowest text-on-surface-variant text-xs font-bold border border-outline-variant/20">Manual</span>
+              <span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold border border-primary/20">AI-Assisted</span>
+              <span class="px-3 py-1 rounded-full bg-tertiary/10 text-tertiary text-xs font-bold border border-tertiary/20">Fully AI</span>
             </div>
-            <div class="flex justify-between items-center border-b border-surface-variant/15 pb-3">
-              <p class="text-sm text-surface-variant">Proposal generation <span class="opacity-50 text-xs">(5 hrs → 1 hr, ~8 proposals/mo)</span></p>
-              <p class="text-sm font-bold text-primary-fixed whitespace-nowrap ml-4">~$1,600/mo</p>
-            </div>
-            <div class="flex justify-between items-center border-b border-surface-variant/15 pb-3">
-              <p class="text-sm text-surface-variant">Reporting automation <span class="opacity-50 text-xs">(15 hrs → 3 hrs × 10 clients)</span></p>
-              <p class="text-sm font-bold text-primary-fixed whitespace-nowrap ml-4">~$6,000/mo</p>
-            </div>
-            <div class="flex justify-between items-center border-b border-surface-variant/15 pb-3">
-              <p class="text-sm text-surface-variant">Senior specialist time on setup <span class="opacity-50 text-xs">(60% → 20%)</span></p>
-              <p class="text-sm font-bold text-primary-fixed whitespace-nowrap ml-4">~$4,000/mo</p>
-            </div>
-            <div class="flex justify-between items-center pt-1">
-              <p class="text-sm font-bold text-white">Total monthly savings</p>
-              <p class="text-sm font-black text-primary-fixed">~$13,600/mo</p>
-            </div>
-            <div class="flex justify-between items-center">
-              <p class="text-sm text-surface-variant">GrowthOS cost</p>
-              <p class="text-sm font-bold text-surface-variant">$1,200/mo</p>
+            <p class="text-xs text-on-surface-variant mt-3">Result: Junior team members execute with senior-level consistency.</p>
+          </div>
+          <div class="hidden">
+            <div class="w-full h-full bg-gradient-to-br from-primary/10 via-tertiary-container/20 to-highlight-teal/10 flex items-center justify-center">
+              <div class="grid grid-cols-3 gap-3 p-8 opacity-60">
+                <div class="h-12 bg-primary/20 rounded-xl"></div>
+                <div class="h-16 bg-tertiary/20 rounded-xl mt-2"></div>
+                <div class="h-10 bg-highlight-teal/30 rounded-xl mt-4"></div>
+                <div class="h-14 bg-tertiary/15 rounded-xl"></div>
+                <div class="h-10 bg-primary/15 rounded-xl mt-1"></div>
+                <div class="h-16 bg-tertiary-container/30 rounded-xl"></div>
+                <div class="h-10 bg-highlight-teal/20 rounded-xl mt-1"></div>
+                <div class="h-12 bg-primary/20 rounded-xl mt-3"></div>
+                <div class="h-10 bg-tertiary/25 rounded-xl"></div>
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Beyond cost savings -->
-          <div class="bg-white/5 rounded-xl p-5 border border-surface-variant/10">
-            <p class="text-xs font-label uppercase tracking-widest text-primary-fixed/50 mb-3">Beyond Cost Savings</p>
-            <ul class="space-y-2">
-              <li class="flex items-start gap-2 text-sm text-surface-variant">
-                <span class="material-symbols-outlined text-tertiary-fixed text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
-                Take on 2–3 more clients without hiring — $15K–$25K additional monthly revenue
+        <!-- Blueprints — small card -->
+        <div class="md:col-span-4 bg-primary text-on-primary rounded-3xl p-12 flex flex-col justify-between min-h-[20rem] reveal reveal-delay-1">
+          <div>
+            <span class="material-symbols-outlined text-5xl mb-6 block" style="font-variation-settings:'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 48">architecture</span>
+            <h3 class="text-2xl font-bold font-headline mb-4">Blueprints</h3>
+            <p class="text-on-primary/80 leading-relaxed">Standardized recipes that combine Bricks into full client deliverables. Zero-variance execution across every account.</p>
+          </div>
+          <div class="pt-8 border-t border-white/20">
+            <ul class="space-y-3 font-medium text-sm">
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
+                1-Click Content Strategy
               </li>
-              <li class="flex items-start gap-2 text-sm text-surface-variant">
-                <span class="material-symbols-outlined text-tertiary-fixed text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
-                Client retention improves — reports finally prove your agency's impact
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
+                Automated Ad Variations
               </li>
-              <li class="flex items-start gap-2 text-sm text-surface-variant">
-                <span class="material-symbols-outlined text-tertiary-fixed text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
-                Agency valuation shifts from 1–3× revenue to 8–15× ARR (software-powered platform)
+              <li class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">check_circle</span>
+                Instant Technical Audits
               </li>
             </ul>
           </div>
         </div>
 
-        <!-- Results panel -->
-        <div class="bg-surface-container-lowest/5 backdrop-blur-md rounded-2xl p-10 border border-surface-variant/10 text-center reveal reveal-delay-1">
-          <div class="text-primary-fixed font-headline text-6xl font-black mb-2" id="savings-display">~$13.8k</div>
-          <p class="text-surface-variant font-medium text-lg mb-8 uppercase tracking-widest">Monthly Savings</p>
-          <div class="grid grid-cols-2 gap-4 mb-8">
-            <div class="bg-primary/20 rounded-xl p-5">
-              <div class="text-3xl font-bold text-white font-headline" id="roi-display">11x</div>
-              <div class="text-[10px] uppercase font-bold tracking-tighter opacity-70 mt-1">Direct ROI</div>
+        <!-- Knowledge Base -->
+        <div class="md:col-span-4 bg-surface-container-high rounded-3xl p-12 min-h-[24rem] reveal">
+          <h3 class="text-2xl font-bold font-headline mb-4">Compounding Knowledge Base</h3>
+          <p class="text-on-surface-variant mb-8 leading-relaxed">The system learns from every execution. Your agency's edge becomes more powerful with every client win.</p>
+          <div class="bg-surface-container-lowest p-6 rounded-2xl ambient-shadow-md">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-full bg-tertiary-container/20 flex items-center justify-center text-tertiary">
+                <span class="material-symbols-outlined text-xl">psychology</span>
+              </div>
+              <span class="font-bold font-headline text-sm">AI Insight</span>
             </div>
-            <div class="bg-tertiary/20 rounded-xl p-5">
-              <div class="text-3xl font-bold text-white font-headline" id="hours-display">400h</div>
-              <div class="text-[10px] uppercase font-bold tracking-tighter opacity-70 mt-1">Human Hours Freed</div>
+            <div class="space-y-2.5">
+              <div class="h-2 w-full bg-surface-container rounded-full"></div>
+              <div class="h-2 w-3/4 bg-surface-container rounded-full"></div>
+              <div class="h-2 w-5/6 bg-highlight-teal/25 rounded-full"></div>
+              <div class="h-2 w-2/3 bg-surface-container rounded-full"></div>
             </div>
           </div>
-          <div class="pt-6 border-t border-surface-variant/10">
-            <p class="text-xs italic text-surface-variant/60">"By shifting execution to GrowthOS, our agency increased EBITDA by 14% in 90 days."</p>
+        </div>
+
+        <!-- Results viz -->
+        <div class="md:col-span-8 bg-on-background text-surface rounded-3xl p-12 overflow-hidden relative min-h-[24rem] reveal reveal-delay-1">
+          <div class="grid grid-cols-2 gap-12 relative z-10 h-full content-center">
+            <div>
+              <div class="text-5xl font-black font-headline text-highlight-teal mb-2">2–3x</div>
+              <div class="text-lg text-surface-variant">Client Capacity</div>
+            </div>
+            <div>
+              <div class="text-5xl font-black font-headline text-highlight-teal mb-2">50%</div>
+              <div class="text-lg text-surface-variant">Reduction in AM Time</div>
+            </div>
+            <div>
+              <div class="text-5xl font-black font-headline text-highlight-teal mb-2">80%</div>
+              <div class="text-lg text-surface-variant">Faster Onboarding</div>
+            </div>
+            <div>
+              <div class="text-5xl font-black font-headline text-highlight-teal mb-2">40%+</div>
+              <div class="text-lg text-surface-variant">Higher Margins</div>
+            </div>
           </div>
-          <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="mt-8 w-full py-4 bg-on-background text-white font-headline font-bold rounded-xl hover:opacity-80 transition-all hover:scale-[1.02] active:scale-95 shadow-xl flex items-center justify-center gap-2">
-            Contact Founders <span class="text-base">↗</span>
+          <div class="absolute inset-0 opacity-5 pointer-events-none" aria-hidden="true">
+            <div class="w-full h-full" style="background-image: radial-gradient(circle, rgba(255,255,255,0.3) 1px, transparent 1px); background-size: 32px 32px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── How It Works — 3 Steps ──────────────────────────── -->
+  <section class="py-32 bg-surface-container-low" aria-labelledby="how-it-works-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="text-center mb-20 reveal">
+        <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">Product Walkthrough</p>
+        <h2 id="how-it-works-heading" class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight mb-4">How It Works — In 3 Steps</h2>
+        <p class="text-xl text-on-surface-variant max-w-xl mx-auto">From client URL to full execution engine in under a day.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- Step 1 -->
+        <div class="bg-surface-container-lowest rounded-3xl p-10 relative reveal">
+          <div class="absolute -top-4 left-10 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-black font-headline text-lg shadow-lg shadow-primary/30">1</div>
+          <div class="pt-4">
+            <span class="material-symbols-outlined text-4xl text-primary mb-6 block" style="font-variation-settings:'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 48">person_add</span>
+            <h3 class="text-xl font-bold font-headline mb-3">Onboard Client</h3>
+            <p class="text-on-surface-variant leading-relaxed mb-6">Agency enters client URL → AI automatically researches the business, creates ICP, buyer personas, competitor analysis, and a knowledge profile. Team reviews and refines.</p>
+            <div class="bg-primary/5 rounded-xl p-4 border border-primary/10">
+              <p class="text-primary font-bold text-sm">15 minutes</p>
+              <p class="text-xs text-on-surface-variant">not 2–3 weeks</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-surface-container-lowest rounded-3xl p-10 relative reveal reveal-delay-1">
+          <div class="absolute -top-4 left-10 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-black font-headline text-lg shadow-lg shadow-primary/30">2</div>
+          <div class="pt-4">
+            <span class="material-symbols-outlined text-4xl text-primary mb-6 block" style="font-variation-settings:'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 48">architecture</span>
+            <h3 class="text-xl font-bold font-headline mb-3">Execute Work Using Blueprints</h3>
+            <p class="text-on-surface-variant leading-relaxed mb-6">A Blueprint = your agency's codified SOP. E.g., the "B2B Lead Gen Setup" Blueprint has 23 tasks — from ICP definition to CRM integration. Each task has an AI-assist button pulling from the client's knowledge base.</p>
+            <div class="bg-primary/5 rounded-xl p-4 border border-primary/10">
+              <p class="text-primary font-bold text-sm">Specialist reviews</p>
+              <p class="text-xs text-on-surface-variant">not creates from scratch</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-surface-container-lowest rounded-3xl p-10 relative reveal reveal-delay-2">
+          <div class="absolute -top-4 left-10 w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-black font-headline text-lg shadow-lg shadow-primary/30">3</div>
+          <div class="pt-4">
+            <span class="material-symbols-outlined text-4xl text-tertiary mb-6 block" style="font-variation-settings:'FILL' 1,'wght' 300,'GRAD' 0,'opsz' 48">auto_graph</span>
+            <h3 class="text-xl font-bold font-headline mb-3">Compound Knowledge, Prove ROI</h3>
+            <p class="text-on-surface-variant leading-relaxed mb-6">Every campaign insight feeds back into the client's knowledge base. Monthly reports auto-generate showing causal attribution — not just "clicks went up" but "the ad copy change on March 3rd drove a 15% revenue lift."</p>
+            <div class="bg-tertiary/5 rounded-xl p-4 border border-tertiary/10">
+              <p class="text-tertiary font-bold text-sm">Compounding moat</p>
+              <p class="text-xs text-on-surface-variant">smarter with every execution</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Why Now Section ──────────────────────────────────── -->
+  <section class="py-32 bg-surface" aria-labelledby="why-now-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-center">
+      <div class="order-2 md:order-1 reveal">
+        <div class="relative">
+          <div class="w-full aspect-[4/3] bg-gradient-to-br from-on-background to-inverse-surface rounded-[2.5rem] overflow-hidden shadow-2xl -rotate-1 scale-100 hover:rotate-0 transition-transform duration-500">
+            <div class="w-full h-full flex items-center justify-center opacity-60">
+              <!-- Server room abstract art -->
+              <div class="grid grid-cols-4 gap-2 p-8 w-full h-full">
+                <div class="flex flex-col gap-2">
+                  <div class="flex-1 bg-primary/30 rounded-lg"></div>
+                  <div class="h-8 bg-highlight-teal/20 rounded-lg"></div>
+                </div>
+                <div class="flex flex-col gap-2 mt-4">
+                  <div class="h-8 bg-tertiary/20 rounded-lg"></div>
+                  <div class="flex-1 bg-primary/20 rounded-lg"></div>
+                  <div class="h-6 bg-highlight-teal/30 rounded-lg"></div>
+                </div>
+                <div class="flex flex-col gap-2">
+                  <div class="flex-1 bg-tertiary-container/20 rounded-lg"></div>
+                  <div class="h-10 bg-primary/25 rounded-lg"></div>
+                </div>
+                <div class="flex flex-col gap-2 mt-6">
+                  <div class="h-6 bg-highlight-teal/20 rounded-lg"></div>
+                  <div class="flex-1 bg-primary/15 rounded-lg"></div>
+                  <div class="h-8 bg-tertiary/25 rounded-lg"></div>
+                </div>
+              </div>
+            </div>
+            <!-- Cyan highlight strips -->
+            <div class="absolute inset-x-0 top-1/3 h-px bg-highlight-teal/30"></div>
+            <div class="absolute inset-x-0 top-2/3 h-px bg-highlight-teal/20"></div>
+          </div>
+        </div>
+      </div>
+      <div class="order-1 md:order-2 reveal reveal-delay-1">
+        <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">Why Now</p>
+        <h2 id="why-now-heading" class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight mb-8">
+          The shift from Generation to <em class="not-italic italic">Execution</em>.
+        </h2>
+        <div class="space-y-5">
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-primary text-lg">bolt</span>
+            </div>
+            <div>
+              <p class="font-bold text-on-surface mb-1">AI Can Finally Do The Work</p>
+              <p class="text-on-surface-variant text-sm leading-relaxed">Before 2023, AI could suggest — now it can execute. For the first time, an AI system can handle 60% of agency delivery work, not just assist with it.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 rounded-xl bg-error/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-error text-lg">link_off</span>
+            </div>
+            <div>
+              <p class="font-bold text-on-surface mb-1">Attribution Is Broken</p>
+              <p class="text-on-surface-variant text-sm leading-relaxed">Post-iOS14, pixel tracking is unreliable. The agencies that can show causal ROI will retain clients. The rest will churn.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 rounded-xl bg-[#f59e0b]/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-[#f59e0b] text-lg">trending_down</span>
+            </div>
+            <div>
+              <p class="font-bold text-on-surface mb-1">Agencies Are Bleeding Margin</p>
+              <p class="text-on-surface-variant text-sm leading-relaxed">60%+ of mid-size agencies operate below 15% net margins. Agencies that don't automate execution will lose to those that do.</p>
+            </div>
+          </div>
+          <div class="flex gap-4 items-start">
+            <div class="w-10 h-10 rounded-xl bg-tertiary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <span class="material-symbols-outlined text-tertiary text-lg">flag</span>
+            </div>
+            <div>
+              <p class="font-bold text-on-surface mb-1">No One Owns This Layer</p>
+              <p class="text-on-surface-variant text-sm leading-relaxed">GoHighLevel owns acquisition. ClickUp owns task tracking. But no one has built the execution intelligence layer. This category is wide open — and we're already running on it.</p>
+            </div>
+          </div>
+        </div>
+        <div class="mt-10 flex items-center gap-6">
+          <div class="flex -space-x-3">
+            <div class="w-12 h-12 rounded-full border-4 border-surface bg-gradient-to-br from-primary/40 to-primary-container/60 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-sm">person</span>
+            </div>
+            <div class="w-12 h-12 rounded-full border-4 border-surface bg-gradient-to-br from-tertiary/40 to-tertiary-container/60 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-sm">person</span>
+            </div>
+            <div class="w-12 h-12 rounded-full border-4 border-surface bg-gradient-to-br from-secondary/40 to-secondary-container/60 flex items-center justify-center">
+              <span class="material-symbols-outlined text-white text-sm">person</span>
+            </div>
+          </div>
+          <p class="text-sm font-bold font-headline text-on-surface">Trusted by 50+ Modern Agencies</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Testimonials ─────────────────────────────────────── -->
+  <section class="py-24 bg-surface-container-low" aria-labelledby="testimonials-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="text-center mb-16 reveal">
+        <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">Social Proof</p>
+        <h2 id="testimonials-heading" class="text-3xl md:text-4xl font-extrabold font-headline tracking-tight">What agencies are saying</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <article class="bg-surface-container-lowest p-8 rounded-3xl ambient-shadow-md reveal" aria-label="Customer testimonial">
+          <div class="flex items-center gap-1 mb-6">
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+          </div>
+          <blockquote>
+            <p class="text-on-surface leading-relaxed mb-6">"By shifting execution to GrowthOS, our agency increased EBITDA by 14% in 90 days. The ROI was immediate and undeniable."</p>
+          </blockquote>
+          <footer class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary/40 to-primary-container flex items-center justify-center">
+              <span class="text-white text-xs font-bold">SA</span>
+            </div>
+            <div>
+              <p class="text-sm font-bold font-headline text-on-surface">Sarah A.</p>
+              <p class="text-xs text-on-surface-variant">CEO, VelocityMKT</p>
+            </div>
+          </footer>
+        </article>
+        <article class="bg-surface-container-lowest p-8 rounded-3xl ambient-shadow-md reveal reveal-delay-1" aria-label="Customer testimonial">
+          <div class="flex items-center gap-1 mb-6">
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+          </div>
+          <blockquote>
+            <p class="text-on-surface leading-relaxed mb-6">"We scaled from 18 to 45 active clients without a single new hire. GrowthOS handles what three junior AMs used to do."</p>
+          </blockquote>
+          <footer class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-tertiary/40 to-tertiary-container flex items-center justify-center">
+              <span class="text-white text-xs font-bold">MK</span>
+            </div>
+            <div>
+              <p class="text-sm font-bold font-headline text-on-surface">Marcus K.</p>
+              <p class="text-xs text-on-surface-variant">Founder, NorthStar Digital</p>
+            </div>
+          </footer>
+        </article>
+        <article class="bg-surface-container-lowest p-8 rounded-3xl ambient-shadow-md reveal reveal-delay-2" aria-label="Customer testimonial">
+          <div class="flex items-center gap-1 mb-6">
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+            <span class="material-symbols-outlined text-[#f59e0b] text-xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">star</span>
+          </div>
+          <blockquote>
+            <p class="text-on-surface leading-relaxed mb-6">"The onboarding alone is worth the price. What took 3 weeks now takes 4 hours. Our clients notice the speed—and love it."</p>
+          </blockquote>
+          <footer class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-secondary/40 to-secondary-container flex items-center justify-center">
+              <span class="text-white text-xs font-bold">JL</span>
+            </div>
+            <div>
+              <p class="text-sm font-bold font-headline text-on-surface">Jen L.</p>
+              <p class="text-xs text-on-surface-variant">COO, Prism Agency</p>
+            </div>
+          </footer>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Traction Section ────────────────────────────────── -->
+  <section class="py-32 bg-surface-container-low" aria-labelledby="traction-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="text-center mb-16 reveal">
+        <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">Traction &amp; Validation</p>
+        <h2 id="traction-heading" class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight mb-4">
+          We're Not Pitching a Concept — <br class="hidden md:block">We're Running on It
+        </h2>
+        <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">GrowthOS already runs a profitable agency. We're raising to make it available to thousands of others.</p>
+      </div>
+
+      <!-- Stats grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
+        <div class="bg-surface-container-lowest rounded-3xl p-8 text-center ambient-shadow reveal">
+          <p class="text-4xl font-black font-headline text-primary mb-2">$204K</p>
+          <p class="text-sm font-bold text-on-surface mb-1">Agency Revenue</p>
+          <p class="text-xs text-on-surface-variant">Annual · 75% gross profit</p>
+        </div>
+        <div class="bg-surface-container-lowest rounded-3xl p-8 text-center ambient-shadow reveal reveal-delay-1">
+          <p class="text-4xl font-black font-headline text-primary mb-2">4+</p>
+          <p class="text-sm font-bold text-on-surface mb-1">Years Operating</p>
+          <p class="text-xs text-on-surface-variant">Profitable since inception</p>
+        </div>
+        <div class="bg-surface-container-lowest rounded-3xl p-8 text-center ambient-shadow reveal reveal-delay-2">
+          <p class="text-4xl font-black font-headline text-primary mb-2">7</p>
+          <p class="text-sm font-bold text-on-surface mb-1">Active Global Clients</p>
+          <p class="text-xs text-on-surface-variant">US, UK, India, UAE, Qatar</p>
+        </div>
+        <div class="bg-surface-container-lowest rounded-3xl p-8 text-center ambient-shadow reveal reveal-delay-3">
+          <p class="text-4xl font-black font-headline text-tertiary mb-2">Live</p>
+          <p class="text-sm font-bold text-on-surface mb-1">GrowthOS Status</p>
+          <p class="text-xs text-on-surface-variant">Used daily at GrowthMak</p>
+        </div>
+      </div>
+
+      <!-- Validation cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-on-background text-surface rounded-3xl p-10 reveal">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="material-symbols-outlined text-tertiary-fixed text-3xl" style="font-variation-settings:'FILL' 1">verified</span>
+            <p class="font-headline font-bold text-lg">Client Zero</p>
+          </div>
+          <p class="text-surface-variant leading-relaxed mb-6">GrowthMak — our own agency — is Client Zero. We use GrowthOS daily to run every client engagement. We don't guess what agencies need. We've lived it for 4 years.</p>
+          <div class="bg-white/5 rounded-xl p-4 border border-surface-variant/10">
+            <p class="text-xs font-label uppercase tracking-widest text-surface-variant/50 mb-1">From the founders of</p>
+            <p class="font-bold text-white">GrowthMak</p>
+            <p class="text-xs text-surface-variant">A profitable, 4-year-old growth agency serving 7 global clients.</p>
+          </div>
+        </div>
+        <div class="bg-surface-container-lowest rounded-3xl p-10 ambient-shadow reveal reveal-delay-1">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings:'FILL' 1">handshake</span>
+            <p class="font-headline font-bold text-lg text-on-surface">Committed Pilot</p>
+          </div>
+          <blockquote class="text-on-surface-variant leading-relaxed mb-6">
+            "Akshay from Shabang — an 80-person agency — committed to pilot after a single walkthrough."
+          </blockquote>
+          <div class="bg-primary/5 rounded-xl p-4 border border-primary/10">
+            <p class="text-xs font-label uppercase tracking-widest text-primary/50 mb-1">Early validation</p>
+            <p class="font-bold text-on-surface">Shabang Agency</p>
+            <p class="text-xs text-on-surface-variant">80-person team · committed after one demo</p>
+          </div>
+          <a href="https://growthos-waitinglist.growthmak.com" target="_blank" rel="noopener" class="inline-flex items-center gap-2 mt-6 text-primary font-bold text-sm hover:gap-3 transition-all">
+            Join the waitlist
+            <span class="material-symbols-outlined text-sm">arrow_forward</span>
           </a>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── Strategy Log / Moat Section ────────────────────── -->
-  <section class="max-w-7xl mx-auto px-6 md:px-8 mb-32" aria-labelledby="moat-heading">
-    <div class="text-center mb-12 reveal">
-      <p class="font-label text-xs font-bold uppercase tracking-widest text-tertiary mb-3">Our Defensible Moat</p>
-      <h2 id="moat-heading" class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-on-surface mb-4">
-        Execution Intelligence
+  <!-- ─── Team Section ─────────────────────────────────────── -->
+  <section id="about" class="py-32 bg-surface" aria-labelledby="team-heading">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+      <div class="text-center mb-16 reveal">
+        <p class="text-xs font-bold font-label tracking-widest text-primary mb-4 uppercase">The Team</p>
+        <h2 id="team-heading" class="text-4xl md:text-5xl font-extrabold font-headline tracking-tight mb-4">
+          Built by Agency Operators, <br class="hidden md:block">Not Engineers in a Lab
+        </h2>
+        <p class="text-xl text-on-surface-variant max-w-2xl mx-auto">Our unfair advantage: we've lived the agency pain for 4 years, billing real clients, managing real teams.</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+
+        <!-- Aakash -->
+        <article class="bg-surface-container-low rounded-3xl p-10 reveal" aria-label="Team member Aakash MK">
+          <div class="flex items-center gap-5 mb-6">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/40 to-primary-container flex items-center justify-center flex-shrink-0">
+              <span class="text-white font-black font-headline text-xl">AM</span>
+            </div>
+            <div>
+              <h3 class="font-headline text-xl font-bold text-on-surface">Aakash MK</h3>
+              <p class="text-primary font-medium text-sm">CEO &amp; Co-founder</p>
+            </div>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              7+ years in digital marketing (Xiaomi India, Eurofins)
+            </li>
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              Co-founded GrowthMak — profitable agency, 4+ years, 7 global clients
+            </li>
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              Designed every workflow from real client delivery — not theory
+            </li>
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-primary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              GrowthMak is Client Zero: uses GrowthOS to run the agency daily
+            </li>
+          </ul>
+          <a href="mailto:info@growthmak.com" class="inline-flex items-center gap-2 mt-6 text-sm text-primary font-bold hover:gap-3 transition-all">
+            info@growthmak.com
+            <span class="material-symbols-outlined text-sm">mail</span>
+          </a>
+        </article>
+
+        <!-- Mohammed -->
+        <article class="bg-surface-container-low rounded-3xl p-10 reveal reveal-delay-1" aria-label="Team member Mohammed Shahul Hameed">
+          <div class="flex items-center gap-5 mb-6">
+            <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-tertiary/40 to-tertiary-container flex items-center justify-center flex-shrink-0">
+              <span class="text-white font-black font-headline text-xl">MS</span>
+            </div>
+            <div>
+              <h3 class="font-headline text-xl font-bold text-on-surface">Mohammed Shahul Hameed</h3>
+              <p class="text-tertiary font-medium text-sm">COO &amp; Co-founder</p>
+            </div>
+          </div>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-tertiary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              Co-founded GrowthMak — the engineering force behind the platform
+            </li>
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-tertiary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              Full-stack: Python, Django, React, n8n automation
+            </li>
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-tertiary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              Built GrowthOS end-to-end from internal agency operations
+            </li>
+            <li class="flex items-start gap-3 text-sm text-on-surface-variant">
+              <span class="material-symbols-outlined text-tertiary text-base mt-0.5" style="font-variation-settings:'FILL' 1">check_circle</span>
+              Manages all technical architecture and AI integration
+            </li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Arcade Product Demo ─────────────────────────────── -->
+  <section class="py-24 bg-surface" aria-label="Interactive product demo">
+    <div class="max-w-7xl mx-auto px-6 md:px-8">
+    <div class="text-center mb-10 reveal">
+      <p class="font-label text-xs font-bold uppercase tracking-widest text-tertiary mb-3">Live Walkthrough</p>
+      <h2 class="font-headline text-3xl md:text-4xl font-extrabold tracking-tight text-on-surface mb-4">
+        See GrowthOS in Action
       </h2>
-      <p class="font-body text-lg text-on-surface-variant max-w-2xl mx-auto">
-        We don't just manage tasks — we capture <em>why</em> campaigns work. Every outcome feeds back and compounds.
+      <p class="font-body text-lg text-on-surface-variant max-w-xl mx-auto">
+        Create and send a client proposal in under 10 minutes — from scratch, using AI.
       </p>
     </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-      <!-- Strategy Log explanation -->
-      <div class="bg-surface-container-low rounded-3xl p-8 reveal">
-        <h3 class="font-headline text-xl font-bold text-on-surface mb-6">The Strategy Log — What We Capture</h3>
-        <div class="space-y-5">
-          <div class="flex gap-4 items-start">
-            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <span class="material-symbols-outlined text-primary text-lg">lightbulb</span>
-            </div>
-            <div>
-              <p class="font-bold text-on-surface text-sm mb-1">The Hypothesis</p>
-              <p class="text-on-surface-variant text-sm">"What do we expect will happen if we make this change?"</p>
-            </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <div class="w-10 h-10 rounded-full bg-tertiary/10 flex items-center justify-center flex-shrink-0">
-              <span class="material-symbols-outlined text-tertiary text-lg">edit_note</span>
-            </div>
-            <div>
-              <p class="font-bold text-on-surface text-sm mb-1">The Action</p>
-              <p class="text-on-surface-variant text-sm">"What exactly did we do?"</p>
-            </div>
-          </div>
-          <div class="flex gap-4 items-start">
-            <div class="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0">
-              <span class="material-symbols-outlined text-green-500 text-lg">monitoring</span>
-            </div>
-            <div>
-              <p class="font-bold text-on-surface text-sm mb-1">The Outcome</p>
-              <p class="text-on-surface-variant text-sm">"What was the measurable result?"</p>
-            </div>
-          </div>
-        </div>
-        <div class="mt-8 p-4 bg-primary/5 rounded-xl border border-primary/10">
-          <p class="text-xs font-bold uppercase tracking-widest text-primary mb-2">Result</p>
-          <p class="text-sm text-on-surface-variant">The more you use GrowthOS, the smarter it gets for each client. This is your agency's compounding competitive moat.</p>
-        </div>
+    <div class="rounded-3xl overflow-hidden shadow-2xl ring-1 ring-outline/10 reveal reveal-delay-1">
+      <!--ARCADE EMBED START-->
+      <div style="position: relative; padding-bottom: calc(54.4898% + 41px); height: 0px; width: 100%;">
+        <iframe
+          src="https://demo.arcade.software/0yGWZoF4jBmXsydBmvbO?embed&embed_mobile=tab&embed_desktop=inline&show_copy_link=true"
+          title="Create and Send a Client Proposal Using GrowthOS"
+          frameborder="0"
+          loading="lazy"
+          webkitallowfullscreen
+          mozallowfullscreen
+          allowfullscreen
+          allow="clipboard-write"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; color-scheme: light;">
+        </iframe>
       </div>
-
-      <!-- Real example -->
-      <div class="bg-on-background text-surface rounded-3xl p-8 reveal reveal-delay-1">
-        <p class="font-label text-xs font-bold uppercase tracking-widest text-primary-fixed/50 mb-6">Real Example — Fintech B2B Client</p>
-        <div class="overflow-x-auto mb-6">
-          <table class="w-full text-sm" role="table">
-            <thead>
-              <tr class="border-b border-surface-variant/20">
-                <th class="text-left py-2 pr-4 text-xs uppercase tracking-widest text-surface-variant/60 font-label" scope="col">Headline Type</th>
-                <th class="text-left py-2 pr-4 text-xs uppercase tracking-widest text-surface-variant/60 font-label" scope="col">Strategy Rationale</th>
-                <th class="text-right py-2 text-xs uppercase tracking-widest text-surface-variant/60 font-label" scope="col">Result</th>
-              </tr>
-            </thead>
-            <tbody class="divide-y divide-surface-variant/10">
-              <tr>
-                <td class="py-3 pr-4 text-surface-variant">"Fast 24hr approval"</td>
-                <td class="py-3 pr-4 text-surface-variant">Speed sells</td>
-                <td class="py-3 text-right text-surface-variant">Conv: 2.1%</td>
-              </tr>
-              <tr>
-                <td class="py-3 pr-4 text-surface font-medium">"100% compliant process"</td>
-                <td class="py-3 pr-4 text-surface-variant">Trust &gt; Speed in fintech</td>
-                <td class="py-3 text-right font-bold text-primary-fixed">Conv: 2.6% <span class="text-tertiary-fixed">(+12%)</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="bg-white/5 rounded-xl p-4 border border-surface-variant/10">
-          <p class="text-xs font-bold uppercase tracking-widest text-tertiary-fixed/60 mb-2">AI Learning</p>
-          <p class="text-sm text-surface-variant italic">"Compliance headlines convert 12% better than speed headlines for fintech B2B clients."</p>
-          <p class="text-xs text-surface-variant/40 mt-2">This insight is now permanently stored in this client's knowledge base — and applied to every future campaign automatically.</p>
-        </div>
-      </div>
+      <!--ARCADE EMBED END-->
+    </div>
     </div>
   </section>
 
-  <!-- ─── FAQ Section ──────────────────────────────────────── -->
-  <section class="max-w-4xl mx-auto px-6 md:px-8 mb-32" aria-labelledby="faq-heading">
-    <h2 id="faq-heading" class="font-headline text-3xl font-bold text-center mb-16">Frequently Asked Intelligence</h2>
-    <div class="space-y-4" id="faq-list">
-
-      <div class="bg-surface-container-low rounded-2xl overflow-hidden reveal">
-        <button class="faq-trigger w-full p-6 text-left flex items-center justify-between gap-4" aria-expanded="false">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary flex-shrink-0">psychology</span>
-            <span class="font-headline font-bold text-on-surface">How are "AI Execution Credits" calculated?</span>
-          </div>
-          <span class="material-symbols-outlined text-on-surface-variant faq-chevron flex-shrink-0">expand_more</span>
-        </button>
-        <div class="faq-answer px-6">
-          <p class="text-on-surface-variant text-sm leading-relaxed pb-6">
-            One credit typically represents one complex AI workflow execution (e.g., generating a full content strategy or running a sentiment analysis on 1,000 comments). Simple automation triggers do not consume full credits.
-          </p>
+  <!-- ─── CTA Banner ───────────────────────────────────────── -->
+  <section class="max-w-7xl mx-auto px-6 md:px-8 py-32" aria-labelledby="cta-heading">
+    <div class="bg-primary-container rounded-[2.5rem] md:rounded-[3rem] p-12 md:p-16 lg:p-24 text-center relative overflow-hidden">
+      <div class="relative z-10">
+        <h2 id="cta-heading" class="text-4xl md:text-5xl lg:text-6xl font-black font-headline text-white mb-8 tracking-tighter leading-tight">
+          Ready to scale without the headcount?
+        </h2>
+        <p class="text-xl text-white/80 max-w-xl mx-auto mb-12 leading-relaxed">
+          Join the waitlist or book a strategy call with our implementation experts today.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="px-10 py-5 bg-white text-primary font-black font-headline rounded-2xl text-lg shadow-xl hover:bg-surface-container transition-all hover:scale-[1.02] active:scale-95 flex items-center gap-2">
+            Contact Founders
+          </a>
+          <a href="pricing.html" class="px-10 py-5 bg-primary text-white border border-white/20 font-black font-headline rounded-2xl text-lg hover:bg-white/10 transition-all hover:scale-[1.02] active:scale-95">
+            View Pricing
+          </a>
         </div>
+        <p class="mt-6 text-sm text-white/60">No credit card required · Cancel anytime</p>
       </div>
-
-      <div class="bg-surface-container-low rounded-2xl overflow-hidden reveal reveal-delay-1">
-        <button class="faq-trigger w-full p-6 text-left flex items-center justify-between gap-4" aria-expanded="false">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary flex-shrink-0">trending_up</span>
-            <span class="font-headline font-bold text-on-surface">Can this really replace senior time?</span>
-          </div>
-          <span class="material-symbols-outlined text-on-surface-variant faq-chevron flex-shrink-0">expand_more</span>
-        </button>
-        <div class="faq-answer px-6">
-          <p class="text-on-surface-variant text-sm leading-relaxed pb-6">
-            GrowthOS doesn't replace human decision-making; it replaces human <em>transcription</em>. Instead of a senior strategist spending 4 hours mapping a client journey, GrowthOS does the grunt work in 40 seconds, leaving the senior to curate and polish.
-          </p>
-        </div>
-      </div>
-
-      <div class="bg-surface-container-low rounded-2xl overflow-hidden reveal reveal-delay-2">
-        <button class="faq-trigger w-full p-6 text-left flex items-center justify-between gap-4" aria-expanded="false">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary flex-shrink-0">lock</span>
-            <span class="font-headline font-bold text-on-surface">Is our data used to train models?</span>
-          </div>
-          <span class="material-symbols-outlined text-on-surface-variant faq-chevron flex-shrink-0">expand_more</span>
-        </button>
-        <div class="faq-answer px-6">
-          <p class="text-on-surface-variant text-sm leading-relaxed pb-6">
-            Absolutely not. GrowthOS uses private API instances. Your agency's proprietary blueprints and client data remain yours. We provide the execution layer, not the training ground.
-          </p>
-        </div>
-      </div>
-
-      <div class="bg-surface-container-low rounded-2xl overflow-hidden reveal">
-        <button class="faq-trigger w-full p-6 text-left flex items-center justify-between gap-4" aria-expanded="false">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary flex-shrink-0">swap_horiz</span>
-            <span class="font-headline font-bold text-on-surface">Can I switch plans at any time?</span>
-          </div>
-          <span class="material-symbols-outlined text-on-surface-variant faq-chevron flex-shrink-0">expand_more</span>
-        </button>
-        <div class="faq-answer px-6">
-          <p class="text-on-surface-variant text-sm leading-relaxed pb-6">
-            Yes. You can upgrade or downgrade your plan at any time. Upgrades take effect immediately; downgrades take effect at the next billing cycle. Unused credits do not roll over between billing periods.
-          </p>
-        </div>
-      </div>
-
-      <div class="bg-surface-container-low rounded-2xl overflow-hidden reveal reveal-delay-1">
-        <button class="faq-trigger w-full p-6 text-left flex items-center justify-between gap-4" aria-expanded="false">
-          <div class="flex items-center gap-3">
-            <span class="material-symbols-outlined text-primary flex-shrink-0">integration_instructions</span>
-            <span class="font-headline font-bold text-on-surface">What integrations are supported?</span>
-          </div>
-          <span class="material-symbols-outlined text-on-surface-variant faq-chevron flex-shrink-0">expand_more</span>
-        </button>
-        <div class="faq-answer px-6">
-          <p class="text-on-surface-variant text-sm leading-relaxed pb-6">
-            GrowthOS connects natively with HubSpot, Salesforce, Google Analytics 4, Meta Ads, Google Ads, Slack, Notion, and Zapier. Enterprise plans include custom API integrations for any internal toolstack.
-          </p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ─── Final CTA Section ────────────────────────────────── -->
-  <section class="max-w-7xl mx-auto px-6 md:px-8 mt-16 text-center" aria-labelledby="final-cta-heading">
-    <div class="relative mb-12 reveal">
-      <div class="w-full max-w-4xl mx-auto aspect-[16/5] bg-gradient-to-br from-on-background via-inverse-surface to-on-background rounded-3xl overflow-hidden relative">
-        <div class="absolute inset-0 flex items-center justify-center opacity-20">
-          <div class="grid grid-cols-6 gap-4 w-full h-full p-8">
-            <div class="bg-primary/40 rounded-xl"></div>
-            <div class="bg-highlight-teal/30 rounded-xl mt-4"></div>
-            <div class="bg-tertiary/30 rounded-xl"></div>
-            <div class="bg-primary/30 rounded-xl mt-8"></div>
-            <div class="bg-highlight-teal/20 rounded-xl mt-2"></div>
-            <div class="bg-primary/40 rounded-xl mt-6"></div>
-          </div>
-        </div>
-        <!-- Glass overlay -->
-        <div class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-surface/80 to-transparent"></div>
+      <!-- Abstract dot pattern -->
+      <div class="absolute inset-0 opacity-10 pointer-events-none" aria-hidden="true">
+        <div class="absolute -top-1/2 -left-1/4 w-[150%] h-[200%]" style="background-image: radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px); background-size: 40px 40px;"></div>
       </div>
     </div>
-    <h2 id="final-cta-heading" class="font-headline text-4xl md:text-5xl font-extrabold mb-6 reveal">Ready to Scale Execution?</h2>
-    <p class="text-on-surface-variant mb-10 max-w-xl mx-auto text-lg leading-relaxed reveal">
-      Join the 150+ agencies moving from "Human-Heavy" to "Intelligence-Augmented" operations.
-    </p>
-    <div class="flex flex-col sm:flex-row gap-4 justify-center reveal">
-      <a href="https://developermdandak.zohobookings.in/#/278759000000733108" target="_blank" rel="noopener" class="bg-on-background text-white px-10 py-4 rounded-xl font-bold font-headline shadow-2xl transition-all hover:opacity-80 hover:scale-105 active:scale-95 flex items-center gap-2">
-        Contact Founders <span class="text-base">↗</span>
-      </a>
-      <a href="pricing.html" class="bg-surface-container-high text-on-surface px-10 py-4 rounded-xl font-bold font-headline transition-all hover:bg-surface-container active:scale-95">
-        View Pricing
-      </a>
-    </div>
-    <p class="mt-6 text-sm text-on-surface-variant/60 reveal">No credit card required · Setup in under 10 minutes</p>
   </section>
 
 </main>
 
 <!-- ─── Footer ───────────────────────────────────────────── -->
-<footer class="w-full border-t border-[#c0c6d6]/20 bg-[#f6f3f2] mt-24" role="contentinfo">
+<footer class="w-full border-t border-[#c0c6d6]/20 bg-[#f6f3f2]" role="contentinfo">
   <div class="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-7xl mx-auto px-6 md:px-8 py-16">
     <div class="col-span-2 md:col-span-1">
       <a href="index.html" class="text-lg font-bold font-headline text-[#1b1b1b] mb-4 block">GrowthOS</a>
       <p class="font-body text-sm text-[#404754] leading-relaxed max-w-xs">
-        The Digital Curator for AI Execution. Scaling agency margins through intelligent infrastructure.
+        The AI Operating System for modern marketing agencies focused on execution and scale.
       </p>
     </div>
     <div>
       <h5 class="font-headline font-bold text-xs uppercase tracking-widest text-[#1b1b1b] mb-6">Product</h5>
       <ul class="space-y-4">
         <li><a href="index.html" class="font-body text-sm text-[#404754] hover:text-primary transition-all">Platform</a></li>
-        <li><a href="pricing.html" class="font-body text-sm text-primary font-bold">Pricing</a></li>
+        <li><a href="pricing.html" class="font-body text-sm text-[#404754] hover:text-primary transition-all">Pricing</a></li>
       </ul>
     </div>
     <div>
       <h5 class="font-headline font-bold text-xs uppercase tracking-widest text-[#1b1b1b] mb-6">Company</h5>
       <ul class="space-y-4">
-        <li><a href="index.html#about" class="font-body text-sm text-[#404754] hover:text-primary transition-all">About</a></li>
+        <li><a href="#about" class="font-body text-sm text-[#404754] hover:text-primary transition-all">About</a></li>
         <li><a href="mailto:info@growthmak.com" class="font-body text-sm text-[#404754] hover:text-primary transition-all">Contact</a></li>
         <li><a href="#" class="font-body text-sm text-[#404754] hover:text-primary transition-all">Privacy</a></li>
         <li><a href="#" class="font-body text-sm text-[#404754] hover:text-primary transition-all">Terms</a></li>
@@ -754,7 +919,7 @@
     </div>
   </div>
   <div class="max-w-7xl mx-auto px-6 md:px-8 py-8 border-t border-[#c0c6d6]/10 flex justify-between items-center">
-    <p class="font-body text-xs text-[#404754] opacity-80">© 2024 GrowthOS. The Digital Curator for AI Execution.</p>
+    <span class="font-body text-xs text-[#404754] opacity-80">© 2024 GrowthOS. The Digital Curator for AI Execution.</span>
     <div class="flex gap-4">
       <a href="#" class="text-[#404754] hover:text-primary transition-all" aria-label="LinkedIn">
         <span class="material-symbols-outlined text-xl">brand_awareness</span>
@@ -766,57 +931,8 @@
   </div>
 </footer>
 
-<!-- Plan selection modal -->
-<div id="plan-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-  <div class="absolute inset-0 bg-on-background/40 backdrop-blur-sm" id="modal-backdrop"></div>
-  <div class="relative bg-surface-container-lowest rounded-3xl p-8 md:p-10 max-w-md w-full ambient-shadow">
-    <button id="modal-close" class="absolute top-4 right-4 p-2 rounded-lg hover:bg-surface-container transition-colors" aria-label="Close">
-      <span class="material-symbols-outlined text-on-surface-variant">close</span>
-    </button>
-    <div class="text-center mb-8">
-      <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary-container flex items-center justify-center mx-auto mb-4">
-        <span class="material-symbols-outlined text-white text-3xl">rocket_launch</span>
-      </div>
-      <h3 id="modal-title" class="font-headline text-2xl font-bold text-on-surface mb-2">Get started with <span id="modal-plan-name">Growth</span></h3>
-      <p class="text-on-surface-variant text-sm">Enter your details and we'll reach out within 24 hours.</p>
-    </div>
-    <form id="signup-form" class="space-y-4" novalidate>
-      <div>
-        <label for="modal-name" class="block text-sm font-bold font-label text-on-surface mb-1.5">Full Name</label>
-        <input type="text" id="modal-name" name="name" placeholder="Jane Smith" required
-          class="w-full bg-surface-container border border-outline-variant/30 focus:border-primary rounded-xl px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/50 outline-none transition-colors" />
-        <p class="text-error text-xs mt-1 hidden" id="name-error">Please enter your name.</p>
-      </div>
-      <div>
-        <label for="modal-email" class="block text-sm font-bold font-label text-on-surface mb-1.5">Work Email</label>
-        <input type="email" id="modal-email" name="email" placeholder="jane@youragency.com" required
-          class="w-full bg-surface-container border border-outline-variant/30 focus:border-primary rounded-xl px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/50 outline-none transition-colors" />
-        <p class="text-error text-xs mt-1 hidden" id="email-error">Please enter a valid email address.</p>
-      </div>
-      <div>
-        <label for="modal-company" class="block text-sm font-bold font-label text-on-surface mb-1.5">Agency Name</label>
-        <input type="text" id="modal-company" name="company" placeholder="Your Agency Ltd."
-          class="w-full bg-surface-container border border-outline-variant/30 focus:border-primary rounded-xl px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant/50 outline-none transition-colors" />
-      </div>
-      <button type="submit" id="modal-submit"
-        class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 hover:scale-[1.02] active:scale-95 transition-all mt-2">
-        Start My Free Trial
-      </button>
-      <p class="text-center text-xs text-on-surface-variant/60">No credit card required · Cancel anytime</p>
-    </form>
-    <!-- Success state (hidden by default) -->
-    <div id="modal-success" class="hidden text-center py-4">
-      <div class="w-16 h-16 rounded-full bg-tertiary-container/20 flex items-center justify-center mx-auto mb-4">
-        <span class="material-symbols-outlined text-tertiary text-4xl" style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">check_circle</span>
-      </div>
-      <h3 class="font-headline text-xl font-bold text-on-surface mb-2">You're on the list!</h3>
-      <p class="text-on-surface-variant text-sm">We'll reach out within 24 hours to set up your account.</p>
-    </div>
-  </div>
-</div>
-
 <script>
-  // ── Mobile nav ────────────────────────────────────────────
+  // Mobile nav toggle
   const navToggle = document.getElementById('nav-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
   let menuOpen = false;
@@ -828,6 +944,7 @@
     navToggle.querySelector('.material-symbols-outlined').textContent = menuOpen ? 'close' : 'menu';
   });
 
+  // Close mobile menu on outside click
   document.addEventListener('click', (e) => {
     if (menuOpen && !navToggle.contains(e.target) && !mobileMenu.contains(e.target)) {
       menuOpen = false;
@@ -837,192 +954,7 @@
     }
   });
 
-  // ── Sticky nav ────────────────────────────────────────────
-  const nav = document.querySelector('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('shadow-[0_8px_32px_rgba(27,27,27,0.08)]', window.scrollY > 80);
-  }, { passive: true });
-
-  // ── Billing toggle ────────────────────────────────────────
-  const billingToggle = document.getElementById('billing-toggle');
-  const starterPrice  = document.getElementById('starter-price');
-  const growthPrice   = document.getElementById('growth-price');
-  const starterBilled = document.getElementById('starter-billed');
-  const growthBilled  = document.getElementById('growth-billed');
-
-  billingToggle.addEventListener('change', () => {
-    const isAnnual = billingToggle.checked;
-    if (isAnnual) {
-      starterPrice.textContent = '$399';
-      growthPrice.textContent  = '$960';
-      starterBilled.textContent = 'Billed annually ($4,788/yr)';
-      growthBilled.textContent  = 'Billed annually ($11,520/yr)';
-      document.getElementById('monthly-label').classList.remove('text-on-surface');
-      document.getElementById('monthly-label').classList.add('text-on-surface-variant');
-      document.getElementById('annual-label').classList.add('font-bold');
-      document.getElementById('annual-label').classList.remove('text-on-surface-variant');
-    } else {
-      starterPrice.textContent = '$499';
-      growthPrice.textContent  = '$1,200';
-      starterBilled.textContent = 'Billed monthly';
-      growthBilled.textContent  = 'Billed monthly';
-      document.getElementById('monthly-label').classList.add('text-on-surface');
-      document.getElementById('monthly-label').classList.remove('text-on-surface-variant');
-      document.getElementById('annual-label').classList.remove('font-bold');
-      document.getElementById('annual-label').classList.add('text-on-surface-variant');
-    }
-  });
-
-  // ── ROI Calculator (optional — only runs if input exists in DOM) ──
-  const spendInput = document.getElementById('monthly-spend');
-  if (spendInput) {
-    const displaySpend   = document.getElementById('display-spend');
-    const savingsDisplay = document.getElementById('savings-display');
-    const roiDisplay     = document.getElementById('roi-display');
-    const hoursDisplay   = document.getElementById('hours-display');
-    const GROWTHOS_COST  = 1200;
-
-    function formatCurrency(n) {
-      if (n >= 1000) return '$' + (n / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
-      return '$' + n.toLocaleString();
-    }
-
-    function updateROI() {
-      const spend = parseFloat(spendInput.value) || 0;
-      const savings = Math.max(0, spend - GROWTHOS_COST);
-      const roi = spend > 0 ? Math.round(spend / GROWTHOS_COST) : 0;
-      const hours = Math.round((spend / 15000) * 400);
-      if (displaySpend)   displaySpend.textContent   = '$' + spend.toLocaleString();
-      if (savingsDisplay) savingsDisplay.textContent = '~' + formatCurrency(savings);
-      if (roiDisplay)     roiDisplay.textContent     = roi + 'x';
-      if (hoursDisplay)   hoursDisplay.textContent   = hours + 'h';
-    }
-
-    spendInput.addEventListener('input', updateROI);
-  }
-
-  // ── FAQ Accordion ─────────────────────────────────────────
-  document.querySelectorAll('.faq-trigger').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const answer  = btn.nextElementSibling;
-      const chevron = btn.querySelector('.faq-chevron');
-      const isOpen  = answer.classList.contains('open');
-
-      // Close all
-      document.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('open'));
-      document.querySelectorAll('.faq-chevron').forEach(c => c.classList.remove('open'));
-      document.querySelectorAll('.faq-trigger').forEach(b => b.setAttribute('aria-expanded', 'false'));
-
-      // Open clicked if it was closed
-      if (!isOpen) {
-        answer.classList.add('open');
-        chevron.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
-      }
-    });
-  });
-
-  // ── Plan Selection Modal ─────────────────────────────────
-  const modal        = document.getElementById('plan-modal');
-  const modalClose   = document.getElementById('modal-close');
-  const modalBackdrop = document.getElementById('modal-backdrop');
-  const modalPlanName = document.getElementById('modal-plan-name');
-  const signupForm   = document.getElementById('signup-form');
-  const modalSuccess = document.getElementById('modal-success');
-
-  function openModal(planName) {
-    if (planName === 'Enterprise') {
-      // For enterprise, just show contact info
-      modalPlanName.textContent = planName;
-      document.getElementById('modal-submit').textContent = 'Contact Sales';
-    } else {
-      modalPlanName.textContent = planName;
-      document.getElementById('modal-submit').textContent = 'Start My Free Trial';
-    }
-    signupForm.classList.remove('hidden');
-    modalSuccess.classList.add('hidden');
-    modal.classList.remove('hidden');
-    modal.classList.add('flex');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => document.getElementById('modal-name').focus(), 100);
-  }
-
-  function closeModal() {
-    modal.classList.add('hidden');
-    modal.classList.remove('flex');
-    document.body.style.overflow = '';
-  }
-
-  window.handlePlanSelect = openModal;
-  modalClose.addEventListener('click', closeModal);
-  modalBackdrop.addEventListener('click', closeModal);
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  // Form validation & submission
-  signupForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name  = document.getElementById('modal-name');
-    const email = document.getElementById('modal-email');
-    const nameErr  = document.getElementById('name-error');
-    const emailErr = document.getElementById('email-error');
-    let valid = true;
-
-    // Reset errors
-    nameErr.classList.add('hidden');
-    emailErr.classList.add('hidden');
-    name.classList.remove('border-error');
-    email.classList.remove('border-error');
-
-    if (!name.value.trim()) {
-      nameErr.classList.remove('hidden');
-      name.classList.add('border-error');
-      valid = false;
-    }
-    if (!email.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      emailErr.classList.remove('hidden');
-      email.classList.add('border-error');
-      valid = false;
-    }
-
-    if (valid) {
-      const btn = document.getElementById('modal-submit');
-      btn.textContent = 'Submitting...';
-      btn.disabled = true;
-      // Simulate API call
-      setTimeout(() => {
-        signupForm.classList.add('hidden');
-        modalSuccess.classList.remove('hidden');
-      }, 1000);
-    }
-  });
-
-  // Validate on blur
-  document.getElementById('modal-name').addEventListener('blur', function() {
-    const err = document.getElementById('name-error');
-    if (!this.value.trim()) {
-      err.classList.remove('hidden');
-      this.classList.add('border-error');
-    } else {
-      err.classList.add('hidden');
-      this.classList.remove('border-error');
-    }
-  });
-
-  document.getElementById('modal-email').addEventListener('blur', function() {
-    const err = document.getElementById('email-error');
-    if (!this.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      err.classList.remove('hidden');
-      this.classList.add('border-error');
-    } else {
-      err.classList.add('hidden');
-      this.classList.remove('border-error');
-    }
-  });
-
-  // ── Scroll reveal ─────────────────────────────────────────
+  // Scroll reveal animation
   const revealEls = document.querySelectorAll('.reveal');
 
   // Trigger any element already in viewport immediately
@@ -1050,10 +982,20 @@
   checkReveal();
   window.addEventListener('scroll', checkReveal, { passive: true });
 
-  // Hard fallback — guarantee everything is visible after 800ms
+  // Hard fallback — guarantee everything visible after 800ms
   setTimeout(() => {
     document.querySelectorAll('.reveal:not(.visible)').forEach(el => el.classList.add('visible'));
   }, 800);
+
+  // Sticky nav shadow on scroll
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav.classList.add('shadow-[0_8px_32px_rgba(27,27,27,0.08)]');
+    } else {
+      nav.classList.remove('shadow-[0_8px_32px_rgba(27,27,27,0.08)]');
+    }
+  }, { passive: true });
 </script>
 </body>
 </html>
